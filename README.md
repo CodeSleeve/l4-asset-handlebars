@@ -42,7 +42,7 @@ Now create a file `app/assets/javascripts/myfirst.jst.hbs`
 	<div> Put some html here, {{smeagol}} </div>
 ```
 
- and after refreshing your page you should be able inspect JST object in your javascript console, and run it as a function
+After refreshing the page inspect JST object in the javascript console and the function
 
 ```
 	JST['myfirst']({smeagol: 'precious!!!'})
