@@ -25,15 +25,17 @@ class L4AssetHandlebarsServiceProvider extends ServiceProvider {
 		$base = str_replace($project_base, '', $base, $replace_once);
 		$base = ltrim($base, '/');
 
-		\Event::listen('assets.register.paths', function($paths) use ($base) {
-			$paths->add($base . '/javascripts', 'javascripts');
-			$paths->add($base . '/stylesheets', 'stylesheets');
-		});
+		\Event::listen('asset.pipeline.boot', function($pipeline) use ($base) {
+			$config = $pipeline->getConfig();
 
-		\Event::listen('assets.register.filters', function($filters) {
-			$filters->add('.jst.hbs', array(
-				new \Codesleeve\L4AssetHandlebars\Filters\HandlebarsFilter
-			));
+			$config['paths'][] = $base . '/javascripts';
+			$config['paths'][] = $base . '/stylesheets';
+			$config['mimes']['javascripts'][] = '.jst.hbs';
+			$config['filters']['.jst.hbs'] = array(
+				new Filters\HandlebarsFilter($config['paths'])
+			);
+
+			$pipeline->setConfig($config);
 		});
 
 		$this->package('codesleeve/l4-asset-handlebars');
