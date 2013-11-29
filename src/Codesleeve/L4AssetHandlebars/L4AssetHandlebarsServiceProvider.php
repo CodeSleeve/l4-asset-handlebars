@@ -18,13 +18,12 @@ class L4AssetHandlebarsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$count = 1;
+		$replace_once = 1;
 		$project_base = $this->app['path.base'];
 
 		$base = realpath(__DIR__ . '/../../../assets');
-		$base = str_replace($project_base, '', $base, $count);
-
-		$this->package('codesleeve/l4-asset-handlebars');
+		$base = str_replace($project_base, '', $base, $replace_once);
+		$base = ltrim($base, '/');
 
 		\Event::listen('assets.register.paths', function($paths) use ($base) {
 			$paths->add($base . '/javascripts', 'javascripts');
@@ -37,6 +36,8 @@ class L4AssetHandlebarsServiceProvider extends ServiceProvider {
 			));
 		});
 
+		$this->package('codesleeve/l4-asset-handlebars');
+		
 	}
 
 	/**

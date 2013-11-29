@@ -20,34 +20,34 @@ class HandlebarsFilter implements FilterInterface
         $this->paths = $app['asset']->paths->get('javascripts');
     }
 
-	/**
-	 * [filterLoad description]
-	 * @param  AssetInterface $asset [description]
-	 * @return [type]                [description]
-	 */
+    /**
+     * [filterLoad description]
+     * @param  AssetInterface $asset [description]
+     * @return [type]                [description]
+     */
     public function filterLoad(AssetInterface $asset)
     {
         // do nothing when asset is loaded
     }
  
- 	/**
- 	 * [filterDump description]
- 	 * @param  AssetInterface $asset [description]
- 	 * @return [type]                [description]
- 	 */
+    /**
+     * [filterDump description]
+     * @param  AssetInterface $asset [description]
+     * @return [type]                [description]
+     */
     public function filterDump(AssetInterface $asset)
     {
-    	$path = $this->strip_beginning_slash($this->getPath($asset));
+        $path = $this->getPath($asset);
 
-    	$content = str_replace('"', '\\"', $asset->getContent());
-    	$content = str_replace(PHP_EOL, "", $content);
+        $content = str_replace('"', '\\"', $asset->getContent());
+        $content = str_replace(PHP_EOL, "", $content);
 
-    	$jst = 'JST = (typeof JST === "undefined") ? JST = {} : JST;' . PHP_EOL;
-    	$jst .= 'JST["' . $path . '"] = Handlebars.compile("';
-    	$jst .= $content;
-    	$jst .= '");' . PHP_EOL;
+        $jst = 'JST = (typeof JST === "undefined") ? JST = {} : JST;' . PHP_EOL;
+        $jst .= 'JST["' . $path . '"] = Handlebars.compile("';
+        $jst .= $content;
+        $jst .= '");' . PHP_EOL;
 
-		$asset->setContent($jst);
+        $asset->setContent($jst);
     }
 
     /**
@@ -67,9 +67,8 @@ class HandlebarsFilter implements FilterInterface
     {
         $project_base = $this->normalize($this->app['path.base']);
 
-    	$file = pathinfo($asset->getSourcePath());
+        $file = pathinfo($asset->getSourcePath());
         $file = $file['filename'];
-        $file = $this->strip_off_extension($file, '.jst');
 
         $base = $this->normalize($asset->getSourceRoot());
         $base = str_replace($project_base, '', $base);
@@ -84,7 +83,12 @@ class HandlebarsFilter implements FilterInterface
             }
         }
 
-    	return str_replace('"', '', $base . '/' . $file);
+
+        $path = str_replace('"', '', $base . '/' . $file);
+        $path = $this->strip_off_extension($path, '.jst');
+        $path = $this->strip_beginning_slash($path);
+
+        return $path;
     }
 
     /**
@@ -112,6 +116,7 @@ class HandlebarsFilter implements FilterInterface
         return $path;
     }
 
+
     /**
      * Strips off the prefix
      * 
@@ -128,5 +133,5 @@ class HandlebarsFilter implements FilterInterface
         }
 
         return $path;        
-    }
+    }    
 }
