@@ -2,11 +2,10 @@
 
 use Assetic\Asset\AssetInterface;
 use Assetic\Filter\FilterInterface;
+use Codesleeve\AssetPipeline\Filters\FilterHelper;
 
-class HandlebarsFilter implements FilterInterface
+class HandlebarsFilter extends FilterHelper implements FilterInterface 
 {
-    use \Codesleeve\AssetPipeline\Filters\FilterHelper;
-
     public function __construct($basePath = '/app/assets/javascripts/')
     {
         $this->basePath = $basePath;
