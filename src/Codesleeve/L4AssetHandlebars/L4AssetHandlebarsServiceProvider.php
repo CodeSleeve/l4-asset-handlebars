@@ -18,25 +18,28 @@ class L4AssetHandlebarsServiceProvider extends ServiceProvider {
 	 */
 	public function boot()
 	{
-		$count = 1;
+		$replace_once = 1;
 		$project_base = $this->app['path.base'];
 
 		$base = realpath(__DIR__ . '/../../../assets');
-		$base = str_replace($project_base, '', $base, $count);
+		$base = str_replace($project_base, '', $base, $replace_once);
+		$base = ltrim($base, '/');
+
+		\Event::listen('asset.pipeline.boot', function($pipeline) use ($base) {
+			$config = $pipeline->getConfig();
+
+			$config['paths'][] = $base . '/javascripts';
+			$config['paths'][] = $base . '/stylesheets';
+			$config['mimes']['javascripts'][] = '.jst.hbs';
+			$config['filters']['.jst.hbs'] = array(
+				new Filters\HandlebarsFilter($config['paths'])
+			);
+
+			$pipeline->setConfig($config);
+		});
 
 		$this->package('codesleeve/l4-asset-handlebars');
-
-		\Event::listen('assets.register.paths', function($paths) use ($base) {
-			$paths->add($base . '/javascripts', 'javascripts');
-			$paths->add($base . '/stylesheets', 'stylesheets');
-		});
-
-		\Event::listen('assets.register.filters', function($filters) {
-			$filters->add('.jst.hbs', array(
-				new \Codesleeve\L4AssetHandlebars\Filters\HandlebarsFilter
-			));
-		});
-
+		
 	}
 
 	/**
