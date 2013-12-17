@@ -18,7 +18,7 @@ class HandlebarsFilter extends FilterHelper implements FilterInterface
  
     public function filterDump(AssetInterface $asset)
     {
-        $relativePath = $this->getRelativePath($this->basePath, $asset->getSourceRoot() . '/');
+        $relativePath = ltrim($this->getRelativePath($this->basePath, $asset->getSourceRoot() . '/'), '/');
         $filename =  pathinfo($asset->getSourcePath(), PATHINFO_FILENAME);
         $filename = pathinfo($filename, PATHINFO_FILENAME);
 
