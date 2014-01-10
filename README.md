@@ -51,5 +51,5 @@ After refreshing the page inspect JST object in the javascript console and the f
 which should give you 
 
 ```html
-	<div> Put some html here, previous </div>
+	<div> Put some html here, precious!!! </div>
 ```
