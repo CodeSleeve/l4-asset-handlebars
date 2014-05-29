@@ -28,10 +28,10 @@ class L4AssetHandlebarsServiceProvider extends ServiceProvider {
 		\Event::listen('asset.pipeline.boot', function($pipeline) use ($base) {
 			$config = $pipeline->getConfig();
 
-			$config['paths'][] = $base . '/javascripts';
+			$config['paths'][] = $base . '/javascripts/templates';
 			$config['paths'][] = $base . '/stylesheets';
-			$config['mimes']['javascripts'][] = '.jst.hbs';
-			$config['filters']['.jst.hbs'] = array(
+			$config['mimes']['javascripts'][] = '.handlebars';
+			$config['filters']['.handlebars'] = array(
 				new Filters\HandlebarsFilter($config['paths'])
 			);
 
@@ -39,7 +39,7 @@ class L4AssetHandlebarsServiceProvider extends ServiceProvider {
 		});
 
 		$this->package('codesleeve/l4-asset-handlebars');
-		
+
 	}
 
 	/**
