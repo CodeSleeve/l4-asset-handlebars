@@ -1,5 +1,5 @@
 {
-    "name": "codesleeve/l4-asset-handlebars",
+    "name": "estshy/l4-asset-handlebars",
     "description": "",
     "authors": [
         {
@@ -9,6 +9,10 @@
         {
             "name": "Travis Bennett",
             "email": "travis@codesleeve.com"
+        },
+        {
+            "name": "Mateusz Nowak",
+            "email": "kontakt@estshy.pl"
         }
     ],
     "require": {
@@ -22,7 +26,7 @@
         "classmap": [
         ],
         "psr-0": {
-            "Codesleeve\\L4AssetHandlebars": "src/"
+            "estshy\\L4AssetHandlebars": "src/"
         }
     },
     "minimum-stability": "dev"
