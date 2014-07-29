@@ -26,11 +26,8 @@ class HandlebarsFilter extends FilterHelper implements FilterInterface
         $content = str_replace('"', '\\"', $asset->getContent());
         $content = str_replace(PHP_EOL, "", $content);
 
-        $jst = 'Ember.TEMPLATES = (typeof Ember.TEMPLATES === "undefined") ? Ember.TEMPLATES = {} : Ember.TEMPLATES;' . PHP_EOL;
-        $jst .= 'Ember.TEMPLATES["' . $relativePath . $filename . '"] = Handlebars.compile("';
-        $jst .= $content;
-        $jst .= '");' . PHP_EOL;
-
+        $jst = shell_exec('ember-precompile ' . $asset->getSourceRoot() . '/' . $asset->getSourcePath());
+        $jst = str_replace('Ember.TEMPLATES["' . $filename .'"]', 'Ember.TEMPLATES["' . $relativePath . $filename . '"]', $jst);
         $asset->setContent($jst);
     }
 }
