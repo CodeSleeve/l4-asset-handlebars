@@ -1,17 +1,17 @@
-# Laravel 4 Asset Pipeline Package For Handlebars.js and Ember.js
+# Laravel 4 Asset Pipeline Package For Handlebars.js
 
-Compile your `.handlebars` templates and also deliver Handlebars into your Laravel 4 application.
+Bring in your `.jst.hbs` JST templates and also Handlebars into your Laravel 4 application.
 
 ## Installation
 
-Begin by installing this package through Composer. Edit your project's `composer.json` file to require `estshy/l4-asset-handlebars`.
+Begin by installing this package through Composer. Edit your project's `composer.json` file to require `codesleeve/l4-asset-handlebars`.
 
 It might look something like:
 
 ```php
   "require": {
     "laravel/framework": "4.0.*",
-    "estshy/l4-asset-handlebars": "dev-master"
+    "codesleeve/l4-asset-handlebars": "dev-master"
   }
 ```
 
@@ -24,7 +24,7 @@ Next, update Composer from the Terminal:
 Once this operation completes, add the service provider. Open `app/config/app.php`, and add a new item to the providers array.
 
 ```php
-    'estshy\L4AssetHandlebars\L4AssetHandlebarsServiceProvider'
+    'Codesleeve\L4AssetHandlebars\L4AssetHandlebarsServiceProvider'
 ```
 
 
@@ -34,22 +34,22 @@ Once installed you can add this your Asset pipeline manifest file `[laravel_root
 
 ```
 	//= require handlebars
-  //= require_tree .
 ```
 
-Now create a file `app/assets/javascripts/application.handlebars`
+Now create a file `app/assets/javascripts/myfirst.jst.hbs`
 
 ```html
-	<!doctype html>
-  <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <title>My Ember Application</title>
-  </head>
-  <body>
-    {{outlet}}
-  </body>
-  </html>
+	<div> Put some html here, {{smeagol}} </div>
 ```
 
-You can either put your templates in `templates` subdirectory, so your path will you look like this `app/assets/javascripts/templates/index.handlebars`
+After refreshing the page inspect JST object in the javascript console and the function
+
+```
+	JST['myfirst']({smeagol: 'precious!!!'})
+```
+
+which should give you 
+
+```html
+	<div> Put some html here, previous </div>
+```
