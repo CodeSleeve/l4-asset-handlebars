@@ -29,9 +29,9 @@ class L4AssetHandlebarsServiceProvider extends ServiceProvider
         \Event::listen('asset.pipeline.boot', function ($pipeline) use ($base) {
             $config = $pipeline->getConfig();
 
-            $config['paths'][] = $base . '/javascripts';
+            $config['paths'][] = $base . '/javascripts/templates';
             $config['paths'][] = $base . '/stylesheets';
-            $config['mimes']['javascripts'][] = '.jst.hbs';
+            $config['mimes']['javascripts'][] = '.handlebars';
 
             if (!isset($config['filters']['.handlebars'])) {
                 $config['filters']['.handlebars'] = array(
